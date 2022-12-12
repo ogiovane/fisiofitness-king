@@ -1,0 +1,226 @@
+<div class="main-content">
+  <div class="form-group col-md-12 mx-auto mt-1">
+    <div class="ml-3 text-left">
+
+      <button type="submit" class="btn btn-secondary" (click)="return()"
+      ><i class="fa fa-icons bi-arrow-left"></i> Voltar
+      </button>
+    </div>
+
+    <div class="mt-2 card">
+      <div class="card-header">
+        <!--                    <h4 class="card-title">{{ fichas.id ? 'Editar' : 'Cadastrar' }} aluno</h4>-->
+        <h4 class="card-title" *ngIf="!editando">Adicionar exercício à ficha - ID FICHA: {{idFicha}}</h4>
+        <h4 class="card-title" *ngIf="editando">Editar item - ID FICHA: {{idFicha}}</h4>
+      </div>
+      <div class="card-body">
+        <form (ngSubmit)="onSubmit()" [formGroup]="cadastroForm">
+
+          <div class="row">
+            <div class="form-group col-md-4">
+              <label>Seq.:</label>
+              <input type="number" class="form-control" maxlength="2" required
+                     formControlName="sequencia">
+            </div>
+
+            <div class="form-group col-md-4">
+              <label>Grupo Muscular</label>
+              <select class="form-control" formControlName="grupoMuscular">
+                <option *ngFor="let grupoMuscular of listaCategorias">
+                  {{grupoMuscular}}
+                </option>
+              </select>
+            </div>
+
+            <div class="form-group col-md-4">
+              <label>Exercício</label>
+                <input formControlName="nomeExercicio"
+                       matInput
+                       type="text"
+                       placeholder="Selecione..."
+                       [matAutocomplete]="auto"
+                       class="form-control">
+                <mat-autocomplete #auto="matAutocomplete">
+                  <mat-option *ngFor="let item of exercicios" [value]="item">
+                    {{item}}
+                  </mat-option>
+                </mat-autocomplete>
+            </div>
+
+<!--            <div class="form-group col-md-4">-->
+<!--              <label>Exercício</label>-->
+<!--              <select class="form-control"-->
+<!--                      formControlName="nomeExercicio">-->
+
+<!--                <option *ngIf="exerciciosFiltrados.length === 0"-->
+<!--                        value=0>Selecione...</option>-->
+<!--                <option *ngFor="let exercicio of exerciciosFiltrados"-->
+<!--                        value="{{exercicio}}">{{exercicio}}</option>-->
+<!--              </select>-->
+<!--            </div>-->
+          </div>
+
+          <div class="row">
+            <div class="form-group col-md-4">
+              <label for="series">Séries</label>
+              <input id="series" name="series" type="text" required="required" class="form-control"
+                     formControlName="series"
+              >
+            </div>
+            <div class="form-group col-md-4">
+              <label for="repeticoes">Repetições</label>
+              <input id="repeticoes" name="series" type="text" class="form-control"
+                     formControlName="repeticoes">
+            </div>
+
+            <div class="form-group col-md-4">
+              <label for="carga">Carga</label>
+              <input id="carga" name="series" type="text" class="form-control"
+                     formControlName="carga">
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="form-group col-md-4">
+              <label for="velocidade">Vel. C/E</label>
+              <input id="velocidade" name="velocidade" placeholder="Ex.: 1 por 1" type="text"
+                     required="required" class="form-control"
+                     formControlName="velocidade">
+            </div>
+            <div class="form-group col-md-4">
+              <label for="intervalo">Intervalo</label>
+              <input id="intervalo" name="intervalo" placeholder="Ex.: 40s" type="text"
+                     required="required" class="form-control"
+                     formControlName="intervalo">
+            </div>
+
+            <div class="form-group col-md-4">
+              <label for="tecnica">Técnica</label>
+              <input id="tecnica" name="tecnica" placeholder="Ex.: Falha concêntrica" type="text"
+                     required="required" class="form-control"
+                     formControlName="tecnica">
+            </div>
+          </div>
+
+
+          <div class="d-flex justify-content-center mt-2">
+            <div class="">
+              <button name="submit" type="submit" class="btn btn-l btn-success mt-3 me-2" *ngIf="!idItem">
+                <i class="fa fa-save"></i> Salvar
+              </button>
+            </div>
+            <div class="">
+              <button name="submit" type="submit" class="btn btn-l btn-warning mt-3  me-2" *ngIf="idItem">
+                <i class="fa fa-refresh"></i> Atualizar
+              </button>
+            </div>
+
+            <div>
+              <button class="btn btn-l btn-light mt-3" type="button" (click)="cancelar()"
+                      *ngIf="editando">
+                <i class="fa fa-cancel"></i> Cancelar
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+
+
+    </div>
+
+    <hr class="hr" />
+
+    <div class="">
+      <div class="card">
+        <div class="card-body">
+          <table class="table table-hover align-middle" mat-table [dataSource]="fichaItems">
+
+            <!-- Id do exercício -->
+            <ng-container matColumnDef="sequencia">
+              <th mat-header-cell *matHeaderCellDef>Seq</th>
+              <td mat-cell *matCellDef="let item"> {{item.sequencia}} </td>
+            </ng-container>
+
+            <!-- Id do exercício -->
+            <ng-container matColumnDef="nome">
+              <th mat-header-cell *matHeaderCellDef>Nome</th>
+              <td mat-cell *matCellDef="let item"> {{item.nomeExercicio}} </td>
+            </ng-container>
+
+            <!-- Id do exercício -->
+            <ng-container matColumnDef="series">
+              <th mat-header-cell *matHeaderCellDef>Séries</th>
+              <td mat-cell *matCellDef="let item"> {{item.series}} </td>
+            </ng-container>
+
+            <!-- Id do exercício -->
+            <ng-container matColumnDef="repeticoes">
+              <th mat-header-cell *matHeaderCellDef>Rep.</th>
+              <td mat-cell *matCellDef="let item"> {{item.repeticoes}} </td>
+            </ng-container>
+
+            <!-- Id do exercício -->
+            <ng-container matColumnDef="carga">
+              <th mat-header-cell *matHeaderCellDef>Carga</th>
+              <td mat-cell *matCellDef="let item"> {{item.carga}} </td>
+            </ng-container>
+
+            <!-- Id do exercício -->
+            <ng-container matColumnDef="velocidade">
+              <th mat-header-cell *matHeaderCellDef>Vel.</th>
+              <td mat-cell *matCellDef="let item"> {{item.velocidade}} </td>
+            </ng-container>
+
+            <!-- Id do exercício -->
+            <ng-container matColumnDef="intervalo">
+              <th mat-header-cell *matHeaderCellDef>Int.</th>
+              <td mat-cell *matCellDef="let item"> {{item.intervalo}} </td>
+            </ng-container>
+
+            <!-- Id do exercício -->
+            <ng-container matColumnDef="tecnica">
+              <th mat-header-cell *matHeaderCellDef>Técnica</th>
+              <td mat-cell *matCellDef="let item"> {{item.tecnica}} </td>
+            </ng-container>
+
+            <!-- Ações -->
+            <ng-container matColumnDef="acoes">
+              <th mat-header-cell *matHeaderCellDef> Ações</th>
+              <td mat-cell *matCellDef="let item">
+                <div class="container">
+
+                <mat-icon class="fa fa-solid fa-edit mdireita"
+                          style="color:black; cursor: pointer" (click)="editar(item.id)" ></mat-icon>
+                <!--                                    <i (click)="editDialog(cliente.id)"  class="fa fa-solid fa-edit" style="color:black; cursor: pointer"></i>-->
+                <mat-icon data-toggle="modal" data-target="#modalDeletarExercicio"
+                          class="fa fa-solid fa-trash" (click)="preparaDelecao(item, dialog)"
+                          style="color:red; cursor: pointer"></mat-icon>
+                </div>
+              </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
+            <tr mat-row *matRowDef="let row; columns: columnsToDisplay"></tr>
+          </table>
+          <h4 class="text-center" *ngIf="this.fichaItems.data.length === 0">Ficha sem itens cadastrados</h4>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <ng-template #dialog>
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-title" >Confirmação</h4>
+      <button type="button" class="btn-close" aria-describedby="modal-title" (click)="closeModal()"></button>
+    </div>
+    <div class="modal-body" *ngIf="itemSelecionado">
+      <p><strong>Tem certeza que deseja excluir <span class="text-primary">{{itemSelecionado.nomeExercicio}}</span>?</strong></p>
+      <p>Todas as informações associadas serão perdidas.
+      </p>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-outline-secondary" (click)="closeModal()">Cancelar</button>
+      <button type="button" class="btn btn-danger" (click)="deletarItem()">Confirmar</button>
+    </div>
+  </ng-template></div>

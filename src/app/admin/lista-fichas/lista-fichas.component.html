@@ -1,0 +1,114 @@
+<div class="col-md-12">
+  <div class="ml-3 mb-3">
+    <button type="submit" class="btn btn-secondary  me-2" routerLink="/admin/lista-alunos"
+    ><i class="fa-solid fa-arrow-left"></i> Voltar
+    </button>
+
+    <button type="submit" class="btn btn-success" routerLink="/admin/cadastro-ficha/{{idAluno}}">
+      <i class="fa-solid fa-plus"></i> Nova Ficha
+    </button>
+  </div>
+
+  <div class="card">
+    <table class="table table-hover align-middle" mat-table [dataSource]="fichas" >
+      <!-- Id da Ficha -->
+
+      <ng-container matColumnDef="id">
+        <th mat-header-cell *matHeaderCellDef> ID</th>
+        <td mat-cell *matCellDef="let ficha"> {{ficha.id}} </td>
+      </ng-container>
+
+      <!-- Num da Ficha -->
+      <ng-container matColumnDef="numFicha">
+        <th mat-header-cell *matHeaderCellDef> Num Ficha</th>
+        <td mat-cell *matCellDef="let ficha"> {{ficha.numFicha}} </td>
+      </ng-container>
+
+      <!-- Nome da Ficha -->
+      <ng-container matColumnDef="nome">
+        <th mat-header-cell *matHeaderCellDef> Nome</th>
+        <td mat-cell *matCellDef="let ficha"> {{ficha.nome}} </td>
+      </ng-container>
+
+      <!-- Num da Ficha -->
+      <ng-container matColumnDef="dataTermino">
+        <th mat-header-cell *matHeaderCellDef> Vencimento</th>
+        <td mat-cell *matCellDef="let ficha"> {{ficha.dataTermino}} </td>
+      </ng-container>
+
+      <!-- Num da Ficha -->
+      <ng-container matColumnDef="observacoes">
+        <th mat-header-cell *matHeaderCellDef> Observações</th>
+        <td mat-cell *matCellDef="let ficha"> {{ficha.observacoes}} </td>
+      </ng-container>
+
+      <!-- Ações -->
+      <ng-container matColumnDef="acoes">
+        <th mat-header-cell *matHeaderCellDef> Ações</th>
+
+
+        <td mat-cell *matCellDef="let ficha">
+          <div class="container">
+          <!--          <mat-icon routerLink="/admin/adicionar-exercicios-ficha/{{ficha.id}}" [queryParams]="{idFicha: ficha.id}" class="fa fa-solid fa-add"-->
+          <!--                    style="color:black; cursor: pointer"></mat-icon>         -->
+            <mat-icon routerLink="/admin/adicionar-exercicios-ficha/{{ficha.id}}" class="fa fa-solid fa-add mdireita"
+                      style="color:black; cursor: pointer"></mat-icon>
+
+            <mat-icon routerLink="/admin/cadastro-ficha/{{idAluno}}" [queryParams]="{idFicha: ficha.id}"
+                      class="fa fa-solid fa-edit mdireita"
+                      style="color:black; cursor: pointer"></mat-icon>
+            <!--                                    <i (click)="editDialog(cliente.id)"  class="fa fa-solid fa-edit" style="color:black; cursor: pointer"></i>-->
+            <mat-icon data-toggle="modal" data-target="#modalDeletarExercicio"
+                      class="fa fa-solid fa-trash" (click)="preparaDelecao(ficha, template)"
+                      style="color:red; cursor: pointer"></mat-icon>
+
+          <!--          <button class="btn btn-lg btn-outline-primary" (click)="open(content)">Launch demo modal</button>-->
+
+
+          </div>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
+      <tr mat-row *matRowDef="let row; columns: columnsToDisplay"></tr>
+
+
+
+      <!--        <td>
+                &lt;!&ndash;                                    <i routerLink="/ficha-form/{{ficha.id}}" class="material-icons"&ndash;&gt;
+                &lt;!&ndash;                                       style="color:black; cursor: pointer" matTooltip="Abrir rotinas">folder_open</i>&ndash;&gt;
+
+                <i routerLink="/admin/ficha-form/{{ficha.id}}" class="material-icons mr-2" [queryParams]="{idFicha: ficha.id, idAluno: idAluno}"
+                   style="color:black; cursor: pointer" matTooltip="Add exercícios">add</i>
+
+                <i routerLink="/admin/novo-treino/{{idAluno}}" [queryParams]="{idFicha: ficha.id}" class="material-icons mr-2"
+                   style="color:black; cursor: pointer" matTooltip="Editar">edit</i>
+
+                <i data-toggle="modal" data-target="#modalDeletarFicha"
+                   class="material-icons" (click)="preparaDelecao(ficha)"
+                   style="color:red; cursor: pointer" matTooltip="Deletar">delete</i>
+
+              </td>-->
+
+    </table>
+    <h4 class="text-center" *ngIf="this.fichas.data.length === 0">Sem fichas cadastradas</h4>
+  </div>
+</div>
+
+
+<ng-template #template>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-title">Confirmação</h4>
+    <button type="button" class="btn-close" aria-describedby="modal-title" (click)="closeModal()"></button>
+  </div>
+  <div class="modal-body" *ngIf="fichaSelecionada">
+    <p><strong>Tem certeza que deseja excluir <span class="text-primary">{{fichaSelecionada.nome}}</span>?</strong></p>
+    <p>Todas as informações associadas à ficha serão perdidas.
+      <span class="text-danger">Exercícios que estejam inseridos em fichas não poderão ser deletados.</span>
+    </p>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-secondary" (click)="closeModal()">Cancelar</button>
+    <button type="button" class="btn btn-danger" (click)="deletarFicha()">Confirmar</button>
+  </div>
+</ng-template>

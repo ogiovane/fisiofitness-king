@@ -1,0 +1,148 @@
+<div class="main-content">
+  <div class="form-group col-lg-6 col-md-12 mx-auto">
+    <div>
+      <div class="card">
+        <div class="card-header">
+          <h4 class="card-title">{{ this.id ? 'Editar' : 'Cadastrar' }}  aluno</h4>
+        </div>
+        <div class="card-body">
+          <form (ngSubmit)="onSubmit()" [formGroup]="cadastroForm">
+
+            <div class="form-group">
+              <label>Nome</label>
+              <input type="text" class="form-control" formControlName="nome">
+            </div>
+
+            <div class="form-group">
+              <label>Sobrenome</label>
+              <input type="text" class="form-control" formControlName="sobrenome">
+            </div>
+
+            <div class="form-group">
+              <label class="form-control-label">Gênero</label><br/>
+              <div class="radio">
+                <div class="custom-control custom-radio custom-control-inline">
+                  <input formControlName="genero" class="custom-control-input" value="Masculino" id="sexoM" required
+                         type="radio">
+                  <label class="custom-control-label" for="sexoM">
+                    Masculino
+                  </label>
+                </div>
+                <div class="custom-control custom-radio custom-control-inline">
+                  <input formControlName="genero" class="custom-control-input" value="Feminino" id="sexoF" required
+                         type="radio">
+                  <label class="custom-control-label" for="sexoF">
+                    Feminino
+                  </label>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="nascimento" class="form-control-label">Data de Nascimento</label>
+              <input type="date" id="nascimento" class="form-control" formControlName="nascimento">
+            </div>
+
+
+            <div class="form-group">
+              <label for="celular" class="form-control-label">WhatsApp</label><br/>
+              <input type="text" id="celular" formControlName="celular" mask="(00) 00000-0000" class="form-control"
+                     required>
+              <!--              <input type="hidden" id="countryField" name="codPais">-->
+              <!--              <input type="hidden" id="countryFieldIso" name="countryFieldIso">-->
+            </div>
+
+            <div class="form-group">
+              <label>Email</label>
+              <input type="email" class="form-control" formControlName="email" id="email">
+            </div>
+
+            <!--            <div class="form-group">-->
+            <!--              <label>Usuário</label>-->
+            <!--              <input type="text" class="form-control" formControlName="username" id="username">-->
+            <!--            </div>-->
+
+            <!--            <div class="form-group">-->
+            <!--              <label>Senha</label>-->
+            <!--              <input type="password`" class="form-control" formControlName="password" id="password">-->
+            <!--            </div>-->
+
+            <p (click)="toggle()" id="bt">
+              {{abrirEsconder}}
+            </p>
+
+            <ng-container *ngIf="show">
+              <div class="row">
+                <div class="form-group col-md-4">
+                  <label>CEP</label>
+                  <input type="text" class="form-control" formControlName="cep" mask="00000-000">
+                </div>
+                <div class="form-group col-md-6">
+                  <label>Rua</label>
+                  <input type="text" class="form-control" formControlName="rua">
+                </div>
+                <div class="form-group col-md-2">
+                  <label>Número</label>
+                  <input type="text" class="form-control" formControlName="numero" mask="999999">
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="form-group col-md-3">
+                  <label>Complemento</label>
+                  <input type="text" class="form-control" formControlName="complemento">
+                </div>
+                <div class="form-group col-md-4">
+                  <label>Bairro</label>
+                  <input type="text" class="form-control" formControlName="bairro">
+                </div>
+                <div class="form-group col-md-3">
+                  <label>Cidade</label>
+                  <input type="text" class="form-control" formControlName="cidade">
+                </div>
+                <div class="form-group col-md-2">
+                  <label>UF</label>
+                  <input type="text" class="form-control" formControlName="uf" mask="SS">
+                </div>
+              </div>
+            </ng-container>
+
+            <div class="row" *ngIf="this.id">
+              <div class="form-group col-md-6">
+                <label>ID</label>
+                <input type="text" class="form-control" formControlName="id" [attr.disabled]="true">
+              </div>
+
+              <div class="form-group col-md-6">
+                <label>Data Cadastro</label>
+                <input type="text" class="form-control" formControlName="dataCadastro" [attr.disabled]="true">
+              </div>
+            </div>
+
+
+            <div class="d-flex justify-content-center">
+              <div>
+                <button name="submit" type="submit" class="btn btn-l btn-success mt-2 me-2" *ngIf=!this.id>
+                  <i class="fa fa-save"></i> Salvar
+                </button>
+              </div>
+              <div>
+                <button name="submit" type="submit" class="btn btn-l btn-warning mt-2" *ngIf=this.id>
+                  <i class="fa fa-refresh"></i> Atualizar
+                </button>
+              </div>
+
+              <div>
+                <button class="btn btn-l btn-light mt-2" type="button" (click)="closeDialog()"
+                        routerLink="/admin/lista-alunos">
+                  <i class="fa fa-cancel"></i> Cancelar
+                </button>
+              </div>
+            </div>
+
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
