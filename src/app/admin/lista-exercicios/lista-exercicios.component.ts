@@ -1,11 +1,11 @@
-import {AfterViewInit, Component, OnInit} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {Exercicio} from "../../dao/exercicio";
 import {ExercicioService} from "../../_services/exercicio.service";
 import {MatTableDataSource} from "@angular/material/table";
-import {Observable} from "rxjs";
-import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
-import {ActivatedRoute, Router} from "@angular/router";
-import {BsModalService, BsModalRef} from 'ngx-bootstrap/modal';
+import {ActivatedRoute} from "@angular/router";
+import {BsModalRef, BsModalService} from 'ngx-bootstrap/modal';
+import {MatPaginator} from "@angular/material/paginator";
+import {MatSort} from "@angular/material/sort";
 
 @Component({
   selector: 'app-lista-exercicios',
@@ -13,12 +13,14 @@ import {BsModalService, BsModalRef} from 'ngx-bootstrap/modal';
   styleUrls: ['./lista-exercicios.component.scss']
 })
 export class ListaExerciciosComponent implements OnInit {
-  exercicios = new MatTableDataSource<Exercicio>();
+  exercicios!: MatTableDataSource<Exercicio>;
   exercicioSelecionado: Exercicio;
   errors: String[];
   columnsToDisplay = ['id', 'nome', 'grupoMuscular', 'observacao', 'acoes'];
   modalRef?: BsModalRef;
   id = this.activatedRoute.snapshot.paramMap.get('id');
+  @ViewChild(MatPaginator) paginator !: MatPaginator;
+  @ViewChild(MatSort) matSort !: MatSort;
 
   constructor(
     private exerciciosService: ExercicioService,
@@ -33,11 +35,16 @@ export class ListaExerciciosComponent implements OnInit {
 
   ngOnInit(): void {
     this.getExercicios();
+
   }
 
+
+
   getExercicios(): void {
-    this.exerciciosService.getAll().subscribe((res: any) => {
-      this.exercicios.data = res;
+    this.exerciciosService.getAll().subscribe((res) => {
+      this.exercicios = new MatTableDataSource<Exercicio>(res);
+      this.exercicios.paginator = this.paginator;
+      this.exercicios.sort = this.matSort;
     })
   }
 
@@ -68,5 +75,14 @@ export class ListaExerciciosComponent implements OnInit {
 
   closeModal() {
     this.modalRef?.hide();
+  }
+
+  FilterChange($event: Event) {
+    const filtvalue = (event?.target as HTMLInputElement).value;
+    this.exercicios.filter = filtvalue;
+  }
+
+  onKeyEscape($event: Event) {
+    this.exercicios.filter = '';
   }
 }

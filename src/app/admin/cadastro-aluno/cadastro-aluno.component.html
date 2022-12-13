@@ -122,18 +122,18 @@
 
             <div class="d-flex justify-content-center">
               <div>
-                <button name="submit" type="submit" class="btn btn-l btn-success mt-2 me-2" *ngIf=!this.id>
+                <button name="submit" type="submit" class="btn btn-l btn-success mt-4 me-2" *ngIf=!this.id>
                   <i class="fa fa-save"></i> Salvar
                 </button>
               </div>
               <div>
-                <button name="submit" type="submit" class="btn btn-l btn-warning mt-2" *ngIf=this.id>
+                <button name="submit" type="submit" class="btn btn-l btn-warning mt-4 me-2" *ngIf=this.id>
                   <i class="fa fa-refresh"></i> Atualizar
                 </button>
               </div>
 
               <div>
-                <button class="btn btn-l btn-light mt-2" type="button" (click)="closeDialog()"
+                <button class="btn btn-l btn-light mt-4" type="button" (click)="closeDialog()"
                         routerLink="/admin/lista-alunos">
                   <i class="fa fa-cancel"></i> Cancelar
                 </button>

@@ -23,15 +23,20 @@ import {ListaExerciciosComponent} from './admin/lista-exercicios/lista-exercicio
 import {ListaFichasComponent} from './admin/lista-fichas/lista-fichas.component';
 import {MatTableModule} from "@angular/material/table";
 import {MatIconModule} from "@angular/material/icon";
-import { ConfirmDialogComponent } from './modules/confirm-dialog/confirm-dialog.component';
+import {ConfirmDialogComponent} from './modules/confirm-dialog/confirm-dialog.component';
 import {MatDialogModule} from "@angular/material/dialog";
 import {ModalModule} from "ngx-bootstrap/modal";
 import {MatCardModule} from "@angular/material/card";
 import {MatProgressBarModule} from "@angular/material/progress-bar";
-import { AdicionarExerciciosFichaComponent } from './admin/adicionar-exercicios-ficha/adicionar-exercicios-ficha.component';
+import {
+  AdicionarExerciciosFichaComponent
+} from './admin/adicionar-exercicios-ficha/adicionar-exercicios-ficha.component';
 import {MatAutocompleteModule} from "@angular/material/autocomplete";
 import {MatInputModule} from "@angular/material/input";
 import {AutocompleteLibModule} from "angular-ng-autocomplete";
+import {MatPaginatorIntl, MatPaginatorModule} from "@angular/material/paginator";
+import {CustomPaginator} from "./dao/CustomPaginator";
+import {MatSortModule} from "@angular/material/sort";
 
 @NgModule({
   declarations: [AppComponent, CadastroAlunoComponent, CadastroExercicioComponent, CadastroFichaComponent, ListaAlunosComponent, ListaExerciciosComponent, ListaFichasComponent, ConfirmDialogComponent, AdicionarExerciciosFichaComponent],
@@ -55,7 +60,9 @@ import {AutocompleteLibModule} from "angular-ng-autocomplete";
     MatProgressBarModule,
     MatInputModule,
     MatAutocompleteModule,
-    AutocompleteLibModule
+    AutocompleteLibModule,
+    MatPaginatorModule,
+    MatSortModule
   ],
   providers: [
     AuthGuard,
@@ -64,7 +71,9 @@ import {AutocompleteLibModule} from "angular-ng-autocomplete";
       useClass: AuthInterceptor,
       multi: true
     },
-    UserService
+    UserService,
+    {provide: MatPaginatorIntl, useValue: CustomPaginator()}
+
   ],
   bootstrap: [AppComponent],
 })

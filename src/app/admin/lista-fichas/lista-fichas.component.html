@@ -71,6 +71,9 @@
 
       <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
       <tr mat-row *matRowDef="let row; columns: columnsToDisplay"></tr>
+      <tr class="mat-row" *matNoDataRow>
+        <td class="mat-cell">Sem fichas cadastradas</td>
+      </tr>
 
 
 
@@ -91,7 +94,6 @@
               </td>-->
 
     </table>
-    <h4 class="text-center" *ngIf="this.fichas.data.length === 0">Sem fichas cadastradas</h4>
   </div>
 </div>
 
