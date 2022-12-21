@@ -8,11 +8,11 @@
     </div>
 
     <div class="mt-2 card">
-      <div class="card-header">
-        <!--                    <h4 class="card-title">{{ fichas.id ? 'Editar' : 'Cadastrar' }} aluno</h4>-->
+<!--      <div class="card-header">
+        &lt;!&ndash;                    <h4 class="card-title">{{ fichas.id ? 'Editar' : 'Cadastrar' }} aluno</h4>&ndash;&gt;
         <h4 class="card-title" *ngIf="!editando">Adicionar exercício à ficha - ID FICHA: {{idFicha}}</h4>
         <h4 class="card-title" *ngIf="editando">Editar item - ID FICHA: {{idFicha}}</h4>
-      </div>
+      </div>-->
       <div class="card-body">
         <form (ngSubmit)="onSubmit()" [formGroup]="cadastroForm">
 

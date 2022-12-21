@@ -3,6 +3,8 @@ import { UntypedFormGroup, UntypedFormBuilder, Validators } from '@angular/forms
 import { Observable, Subscription } from 'rxjs';
 import { AuthService } from '../../services/auth.service';
 import { first } from 'rxjs/operators';
+import {UserService} from "../../../../_services/user.service";
+import {Router} from "@angular/router";
 
 enum ErrorStates {
   NotSubmitted,
@@ -23,8 +25,7 @@ export class ForgotPasswordComponent implements OnInit {
 
   // private fields
   private unsubscribe: Subscription[] = []; // Read more: => https://brianflove.com/2016/12/11/anguar-2-unsubscribe-observables/
-  constructor(private fb: UntypedFormBuilder, private authService: AuthService) {
-    this.isLoading$ = this.authService.isLoading$;
+  constructor(private fb: UntypedFormBuilder, private userService: UserService, private router: Router) {
   }
 
   ngOnInit(): void {
@@ -39,7 +40,7 @@ export class ForgotPasswordComponent implements OnInit {
   initForm() {
     this.forgotPasswordForm = this.fb.group({
       email: [
-        'admin@demo.com',
+        '',
         Validators.compose([
           Validators.required,
           Validators.email,
@@ -51,13 +52,21 @@ export class ForgotPasswordComponent implements OnInit {
   }
 
   submit() {
-    this.errorState = ErrorStates.NotSubmitted;
-    const forgotPasswordSubscr = this.authService
-      .forgotPassword(this.f.email.value)
-      .pipe(first())
-      .subscribe((result: boolean) => {
-        this.errorState = result ? ErrorStates.NoError : ErrorStates.HasError;
-      });
-    this.unsubscribe.push(forgotPasswordSubscr);
+    this.userService
+      .forgotPassword(this.forgotPasswordForm.value.email).subscribe(
+        (response: any) => {
+          console.log(response);
+        if(response == true){
+          this.router.navigate(['/auth/login', ], { queryParams: { message: 'Email de recuperação enviado, acesse sua caixa de mensagens!' } });
+        }else{
+          this.router.navigate(['/auth/login', ], { queryParams: { message: 'Aconteceu algum erro, verifique os dados e tente novamente!' } });
+        }
+        // this.cancelar();
+        // this.ngOnInit();
+      },
+      errorResponse => {
+        console.log(errorResponse)
+      }
+    )
   }
 }

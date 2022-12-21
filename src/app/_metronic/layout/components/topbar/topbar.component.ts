@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { LayoutService } from '../../core/layout.service';
+import {UserAuthService} from "../../../../_services/user-auth.service";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-topbar',
@@ -13,9 +15,14 @@ export class TopbarComponent implements OnInit {
   toolbarButtonIconSizeClass = 'svg-icon-1';
   headerLeft: string = 'menu';
 
-  constructor(private layout: LayoutService) {}
+  constructor(private layout: LayoutService, private userAuth: UserAuthService, private router: Router) {}
 
   ngOnInit(): void {
     this.headerLeft = this.layout.getProp('header.left') as string;
+  }
+
+  logout() {
+    this.userAuth.clear();
+    this.router.navigate(['/auth/login']);
   }
 }

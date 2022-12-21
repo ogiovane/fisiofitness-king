@@ -12,6 +12,6 @@ export class Ficha {
     repeticoes: String;
     dataInicio: Date;
     dataTermino: Date;
-    // estaAtivo: boolean;
+    estaAtivo: boolean;
     aluno: { id: number }
 }

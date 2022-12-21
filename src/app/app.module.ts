@@ -37,33 +37,40 @@ import {AutocompleteLibModule} from "angular-ng-autocomplete";
 import {MatPaginatorIntl, MatPaginatorModule} from "@angular/material/paginator";
 import {CustomPaginator} from "./dao/CustomPaginator";
 import {MatSortModule} from "@angular/material/sort";
+import { FichaAnamneseComponent } from './admin/ficha-anamnese/ficha-anamnese.component';
+import {MatListModule} from "@angular/material/list";
+import {MatCheckboxModule} from "@angular/material/checkbox";
+import {MatSelectModule} from "@angular/material/select";
 
 @NgModule({
-  declarations: [AppComponent, CadastroAlunoComponent, CadastroExercicioComponent, CadastroFichaComponent, ListaAlunosComponent, ListaExerciciosComponent, ListaFichasComponent, ConfirmDialogComponent, AdicionarExerciciosFichaComponent],
-  imports: [
-    BrowserModule,
-    BrowserAnimationsModule,
-    TranslateModule.forRoot(),
-    HttpClientModule,
-    ClipboardModule,
-    AppRoutingModule,
-    InlineSVGModule.forRoot(),
-    NgbModule,
-    RouterModule,
-    FormsModule,
-    ReactiveFormsModule,
-    MatTableModule,
-    MatIconModule,
-    MatDialogModule,
-    ModalModule.forRoot(),
-    MatCardModule,
-    MatProgressBarModule,
-    MatInputModule,
-    MatAutocompleteModule,
-    AutocompleteLibModule,
-    MatPaginatorModule,
-    MatSortModule
-  ],
+  declarations: [AppComponent, CadastroAlunoComponent, CadastroExercicioComponent, CadastroFichaComponent, ListaAlunosComponent, ListaExerciciosComponent, ListaFichasComponent, ConfirmDialogComponent, AdicionarExerciciosFichaComponent, FichaAnamneseComponent],
+    imports: [
+        BrowserModule,
+        BrowserAnimationsModule,
+        TranslateModule.forRoot(),
+        HttpClientModule,
+        ClipboardModule,
+        AppRoutingModule,
+        InlineSVGModule.forRoot(),
+        NgbModule,
+        RouterModule,
+        FormsModule,
+        ReactiveFormsModule,
+        MatTableModule,
+        MatIconModule,
+        MatDialogModule,
+        ModalModule.forRoot(),
+        MatCardModule,
+        MatProgressBarModule,
+        MatInputModule,
+        MatAutocompleteModule,
+        AutocompleteLibModule,
+        MatPaginatorModule,
+        MatSortModule,
+        MatListModule,
+        MatCheckboxModule,
+        MatSelectModule
+    ],
   providers: [
     AuthGuard,
     {

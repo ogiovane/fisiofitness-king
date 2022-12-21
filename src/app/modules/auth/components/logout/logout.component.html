@@ -1,1 +1,144 @@
-<p>logout works!</p>
+<!--begin::Form-->
+<form (ngSubmit)="onSubmit()" [formGroup]="forgotPasswordForm">
+  <!--begin::Heading-->
+  <div class="text-center mb-10">
+    <h1 class="text-dark mb-3">Troque sua senha</h1>
+  </div>
+
+  <!--begin::Form group-->
+  <ng-container
+    *ngIf="
+        tokenValid
+      "
+  >
+    <div class="fv-plugins-message-container">
+      <div class="fv-help-block">
+        Token inválido. Solicite a mudança de senha novamente.
+      </div>
+    </div>
+  </ng-container>
+
+  <div class="fv-row mb-5">
+    <div class="d-flex justify-content-between mt-5">
+      <div class="d-flex flex-stack mb-2">
+        <label class="form-label fw-bolder text-dark fs-6 mb-0">Nova senha</label>
+
+      </div>
+    </div>
+
+    <input
+      class="form-control form-control-lg form-control-solid"
+      type="password"
+      placeholder="Senha"
+      name="password"
+      autocomplete="off"
+      ngModel
+      formControlName="password"
+      [ngClass]="{
+        'is-invalid': forgotPasswordForm.controls['password'].invalid,
+        'is-valid': forgotPasswordForm.controls['password'].valid
+      }"
+    />
+  </div>
+  <ng-container
+    [ngTemplateOutlet]="formError"
+    [ngTemplateOutletContext]="{
+        validation: 'minlength',
+        message: 'Campo deve ter ao menos 6 caracteres',
+        control: forgotPasswordForm.controls['password']
+
+      }"
+  ></ng-container>
+  <!--end::Form group-->
+
+  <!--begin::Form group-->
+  <div class="fv-row mb-5">
+    <div class="d-flex justify-content-between mt-5">
+      <div class="d-flex flex-stack mb-2">
+        <label class="form-label fw-bolder text-dark fs-6 mb-0">Confirmação</label>
+
+      </div>
+    </div>
+
+    <input
+      class="form-control form-control-lg form-control-solid"
+      type="password"
+      placeholder="Nova senha"
+      name="cPassword"
+      autocomplete="off"
+      ngModel
+      formControlName="cPassword"
+      [ngClass]="{
+        'is-invalid': forgotPasswordForm.controls['cPassword'].invalid,
+        'is-valid': forgotPasswordForm.controls['cPassword'].valid
+      }"
+    />
+  </div>
+  <ng-container
+    [ngTemplateOutlet]="formError"
+    [ngTemplateOutletContext]="{
+        validation: 'minlength',
+        message: 'Campo deve ter ao menos 6 caracteres',
+        control: forgotPasswordForm.controls['cPassword']
+
+      }"
+  ></ng-container>
+
+  <ng-container
+    *ngIf="
+        forgotPasswordForm.controls['cPassword'].errors &&
+        forgotPasswordForm.controls['cPassword'].errors.ConfirmPassword
+      "
+  >
+    <div class="fv-plugins-message-container">
+      <div class="fv-help-block">
+        'Senha' e 'Confirmação' não são iguais.
+      </div>
+    </div>
+  </ng-container>
+  <!--end::Form group-->
+
+  <!--begin::Action-->
+  <div class="text-center">
+    <button
+      type="submit"
+      id="kt_sign_in_submit"
+      class="btn btn-lg btn-primary w-100 mt-5 mb-5"
+      [disabled]="
+        forgotPasswordForm.invalid
+      "
+    >
+      <ng-container>
+        <span class="indicator-progress">
+          Please wait...
+          <span
+            class="spinner-border spinner-border-sm align-middle ms-2"
+          ></span>
+        </span>
+      </ng-container>
+      <ng-container>
+        <span class="indicator-label" >Continuar</span>
+      </ng-container>
+    </button>
+  </div>
+  <!--end::Action-->
+</form>
+<!--end::Form-->
+<ng-template
+  #formError
+  let-control="control"
+  let-message="message"
+  let-validation="validation"
+>
+  <ng-container
+    *ngIf="control.hasError(validation) && (control.dirty || control.touched)"
+  >
+    <div class="fv-plugins-message-container">
+      <div class="fv-help-block">
+        <span role="alert">
+          {{ message }}
+        </span>
+      </div>
+    </div>
+  </ng-container>
+</ng-template>
